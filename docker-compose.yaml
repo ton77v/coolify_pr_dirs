@@ -3,7 +3,7 @@ services:
   postgres:
     # postgresql://postgres:postgres@postgres:5432/postgres
     image: postgres:16.4
-    container_name: postgres
+    container_name: postgres_test
     restart: always
     environment:
       POSTGRES_USER: ${COMPOSE__POSTGRES_USER:-postgres}
@@ -15,10 +15,15 @@ services:
       - type: bind
         source: "pg_data/data"
         target: "/var/lib/postgresql/data"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      retries: 5
+      start_period: 10s
 
   db_bootstrap:
     image: postgres:16.4
-    container_name: db_bootstrap
+    container_name: db_bootstrap_test
     depends_on:
       postgres:
         condition: service_healthy
