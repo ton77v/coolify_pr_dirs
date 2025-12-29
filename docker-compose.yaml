@@ -11,10 +11,10 @@ services:
       POSTGRES_DB: ${COMPOSE__POSTGRES_DB:-postgres}
     expose:
       - "5432"
-    volumes:
-      - type: bind
-        source: "pg_data/data"
-        target: "/var/lib/postgresql/data"
+#    volumes:
+#      - type: bind
+#        source: "pg_data/data"
+#        target: "/var/lib/postgresql/data"
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 10s
